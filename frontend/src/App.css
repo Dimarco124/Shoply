@@ -1,0 +1,32 @@
+    /* Import de la police Inter */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+
+    body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    }
+
+    .api-off-banner {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    color: #92400e;
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 0.9rem;
+    }
+    .api-off-banner code {
+    background: rgba(0,0,0,0.06);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    }
+

@@ -1,0 +1,244 @@
+/* ============================================================
+PROMO BANNER — Style image : fond jaune/doré, badge prix rond
+============================================================ */
+
+.promo-banner {
+background: #e4a11b;
+overflow: hidden;
+width: 100%;
+}
+
+.promo-inner {
+max-width: 1400px;
+margin: 0 auto;
+padding: 0 48px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+align-items: center;
+min-height: 320px;
+}
+
+/* ── Texte gauche ── */
+.promo-text {
+display: flex;
+flex-direction: column;
+gap: 18px;
+padding: 48px 40px 48px 0;
+z-index: 1;
+}
+
+.promo-title {
+margin: 0;
+line-height: 1.1;
+display: flex;
+flex-direction: column;
+gap: 4px;
+}
+
+.promo-title strong {
+font-size: clamp(2rem, 4vw, 3rem);
+font-weight: 900;
+color: #ffffff;
+letter-spacing: -0.02em;
+font-family: 'Cormorant Garamond', serif;
+display: block;
+}
+
+.promo-subtitle {
+font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+font-weight: 400;
+color: #2d4a2d; /* vert foncé comme l'image */
+font-family: 'Cormorant Garamond', serif;
+font-style: italic;
+display: block;
+}
+
+.promo-desc {
+color: rgba(255, 255, 255, 0.85);
+font-size: 0.95rem;
+line-height: 1.7;
+max-width: 420px;
+margin: 0;
+font-family: 'Cormorant Garamond', serif;
+}
+
+/* Boutons */
+.promo-actions {
+display: flex;
+align-items: center;
+gap: 16px;
+flex-wrap: wrap;
+}
+
+.promo-buy-btn {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+padding: 14px 32px;
+background: transparent;
+color: #fff;
+border: 2px solid #fff;
+border-radius: 50px;
+font-size: 0.82rem;
+font-weight: 700;
+letter-spacing: 2px;
+text-transform: uppercase;
+cursor: pointer;
+transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+font-family: 'Cormorant Garamond', serif;
+}
+
+.promo-buy-btn:hover {
+background: #fff;
+color: #e4a11b;
+transform: translateY(-2px);
+}
+
+.promo-buy-btn:active {
+transform: scale(0.97);
+}
+
+.promo-more-btn {
+background: none;
+border: none;
+color: rgba(255, 255, 255, 0.75);
+font-size: 0.88rem;
+font-family: 'Cormorant Garamond', serif;
+cursor: pointer;
+text-decoration: underline;
+text-underline-offset: 3px;
+transition: color 0.2s;
+padding: 0;
+}
+
+.promo-more-btn:hover {
+color: #fff;
+}
+
+/* ── Visuel droit ── */
+.promo-visual {
+position: relative;
+display: flex;
+align-items: flex-end;
+justify-content: flex-end;
+height: 100%;
+min-height: 320px;
+}
+
+/* Badge prix rond */
+.promo-price-badge {
+position: absolute;
+top: 24px;
+left: 0;
+width: 110px;
+height: 110px;
+background: #fff;
+border-radius: 50%;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+z-index: 2;
+text-align: center;
+padding: 8px;
+}
+
+.badge-amount {
+font-size: 1rem;
+font-weight: 900;
+color: #1a1a1a;
+line-height: 1.1;
+font-family: 'Cormorant Garamond', serif;
+text-align: center;
+word-break: break-all;
+}
+
+.badge-unit {
+font-size: 0.7rem;
+color: #888;
+font-family: 'Cormorant Garamond', serif;
+font-weight: 500;
+margin-top: 2px;
+}
+
+/* Image produit */
+.promo-image {
+width: 85%;
+max-width: 480px;
+height: 100%;
+display: flex;
+align-items: flex-end;
+}
+
+.promo-image img {
+width: 100%;
+max-height: 340px;
+object-fit: contain;
+object-position: bottom;
+filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));
+transition: transform 0.4s ease;
+}
+
+.promo-banner:hover .promo-image img {
+transform: translateY(-8px) scale(1.02);
+}
+
+/* ============================================================
+RESPONSIVE
+============================================================ */
+@media (max-width: 900px) {
+.promo-inner {
+    grid-template-columns: 1fr;
+    padding: 40px 32px 0;
+    text-align: center;
+}
+
+.promo-text {
+    padding: 0;
+    align-items: center;
+}
+
+.promo-desc {
+    max-width: 100%;
+}
+
+.promo-visual {
+    justify-content: center;
+    min-height: 240px;
+    padding-top: 20px;
+}
+
+.promo-price-badge {
+    left: 50%;
+    transform: translateX(-50%);
+    top: -20px;
+}
+
+.promo-image {
+    width: 70%;
+}
+}
+
+@media (max-width: 480px) {
+.promo-inner {
+    padding: 36px 20px 0;
+}
+
+.promo-price-badge {
+    width: 90px;
+    height: 90px;
+}
+
+.badge-amount {
+    font-size: 0.85rem;
+}
+
+.promo-image {
+    width: 85%;
+}
+
+.promo-image img {
+    max-height: 220px;
+}
+}

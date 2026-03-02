@@ -1,0 +1,5 @@
+# Render - Référence des commandes pour le backend Django
+# Voir DEPLOI.md pour la procédure complète (création manuelle du service + DB).
+# Build: pip install -r requirements.txt
+# Release: python manage.py migrate --noinput && python manage.py collectstatic --noinput
+# Start: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT

@@ -1,0 +1,123 @@
+import os
+from pathlib import Path
+import dj_database_url
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-ta-clé-secrète-de-dev')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get('RENDER', False) == False
+
+# Hôtes autorisés (inclut localhost, Render, et toutes origines si besoin)
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com']
+if os.environ.get('ALLOWED_HOSTS'):
+    ALLOWED_HOSTS.extend(os.environ.get('ALLOWED_HOSTS').split(','))
+
+# Nécessaire pour que Django détecte HTTPS derrière le proxy de Render
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
+    'django_filters',
+    'shop',
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+ROOT_URLCONF = 'config.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = 'config.wsgi.application'
+
+# 📌 Configuration de la base de données
+# Utilise PostgreSQL (via DATABASE_URL de Neon.tech) en production
+# ou SQLite3 en local si la variable n'est pas définie.
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600
+    )
+}
+if os.environ.get('DATABASE_URL'):
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+LANGUAGE_CODE = 'fr-fr'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_TZ = True
+
+# Fichiers statiques et médias
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Configuration pour que Whitenoise serve les fichiers efficacement
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# CORS : en production mettre l'URL du frontend (Vercel/Netlify)
+_CORS_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173')
+CORS_ALLOWED_ORIGINS = [o.strip().rstrip('/') for o in _CORS_ORIGINS.split(',') if o.strip()]
+
+# Requis pour Django 4+ en HTTPS (ex. formulaire admin depuis un autre domaine)
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Pagination pour l'API (alignée avec le frontend : page_size=12)
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 12,
+}

@@ -1,0 +1,25 @@
+# Environnement virtuel
+venv/
+env/
+ENV/
+
+# Base de données
+*.sqlite3
+*.db
+
+# Fichiers de cache
+__pycache__/
+*.pyc
+
+# Fichiers média uploadés (en local)
+/media/
+
+# Fichiers statiques collectés
+/staticfiles/
+
+# Variables d'environnement
+.env
+*.env
+
+# Fichiers de configuration locaux
+local_settings.py
