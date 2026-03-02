@@ -12,8 +12,9 @@ DEBUG = os.environ.get('RENDER', False) == False
 
 # Hôtes autorisés (inclut localhost, Render, et toutes origines si besoin)
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com']
-if os.environ.get('ALLOWED_HOSTS'):
-    ALLOWED_HOSTS.extend(os.environ.get('ALLOWED_HOSTS').split(','))
+env_allowed_hosts = os.environ.get('ALLOWED_HOSTS')
+if env_allowed_hosts:
+    ALLOWED_HOSTS.extend(env_allowed_hosts.split(','))
 
 # Nécessaire pour que Django détecte HTTPS derrière le proxy de Render
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -111,8 +112,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 _CORS_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173')
 CORS_ALLOWED_ORIGINS = [o.strip().rstrip('/') for o in _CORS_ORIGINS.split(',') if o.strip()]
 
+# Autorise tous les sous-domaines de vercel.app pour les previews
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",
+]
+
 # Requis pour Django 4+ en HTTPS (ex. formulaire admin depuis un autre domaine)
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()]
+# Autorise aussi les domaines Vercel pour le CSRF si possible (Django 4+ supporte les wildcards dans CSRF_TRUSTED_ORIGINS)
+CSRF_TRUSTED_ORIGINS.append("https://*.vercel.app")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
