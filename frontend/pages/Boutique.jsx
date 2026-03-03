@@ -15,7 +15,7 @@ import './Boutique.css';
 import noteSimulee from '../src/utils/noteSimulee';
 
 const Boutique = () => {
-    const { cartCount, addToCart } = useCart();
+    const { addToCart } = useCart();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -203,93 +203,11 @@ const Boutique = () => {
         filtres.categorie, filtres.prix_max, filtres.disponible, filtres.recherche
     ].filter(Boolean).length;
 
-    const SidebarContent = () => (
-        <div className="sidebar-inner">
 
-            {/* Catégories */}
-            <div className="sb-block">
-                <h4 className="sb-title">
-                    <FiTag size={14} /> Catégories
-                </h4>
-                <ul className="sb-cat-list">
-                    <li>
-                        <button
-                            className={`sb-cat-btn ${!selectedCategory ? 'sb-cat-active' : ''}`}
-                            onClick={() => handleCategorySelect(null)}
-                        >
-                            <span>Tous les produits</span>
-                            {!selectedCategory && <FiCheckCircle size={12} />}
-                        </button>
-                    </li>
-                    {categories.map(cat => (
-                        <li key={cat.id}>
-                            <button
-                                className={`sb-cat-btn ${selectedCategory === cat.id ? 'sb-cat-active' : ''}`}
-                                onClick={() => handleCategorySelect(cat.id)}
-                            >
-                                <span>{cat.nom}</span>
-                                {selectedCategory === cat.id
-                                    ? <FiCheckCircle size={12} />
-                                    : <FiChevronDown size={12} />
-                                }
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            {/* Prix */}
-            <div className="sb-block">
-                <h4 className="sb-title"><FiFilter size={14} /> Prix (FCFA)</h4>
-                <div className="sb-slider-wrap">
-                    <input
-                        type="range"
-                        min={0} max={500000} step={5000}
-                        value={prixSlider}
-                        onChange={e => setPrixSlider(Number(e.target.value))}
-                        className="sb-slider"
-                    />
-                    <div className="sb-price-labels">
-                        <span>0 FCFA</span>
-                        <span className="sb-price-val">{prixSlider.toLocaleString()} FCFA</span>
-                    </div>
-                </div>
-                <button className="sb-filter-btn" onClick={handlePrixFilter}>
-                    Appliquer
-                </button>
-            </div>
-
-            {/* Disponibilité */}
-            <div className="sb-block">
-                <h4 className="sb-title"><FiPackage size={14} /> Disponibilité</h4>
-                {[
-                    { val: '', label: 'Tous les articles' },
-                    { val: 'true', label: 'En stock' },
-                    { val: 'false', label: 'Rupture de stock' }
-                ].map(opt => (
-                    <label key={opt.val} className="sb-radio">
-                        <input
-                            type="radio" name="dispo" value={opt.val}
-                            checked={filtres.disponible === opt.val}
-                            onChange={() => handleDisponibiliteChange(opt.val)}
-                        />
-                        <span className="sb-radio-custom" />
-                        <span>{opt.label}</span>
-                    </label>
-                ))}
-            </div>
-
-            {activeFiltersCount > 0 && (
-                <button className="sb-reset" onClick={resetFilters}>
-                    <FiX size={13} /> Effacer tous les filtres
-                </button>
-            )}
-        </div>
-    );
 
     return (
         <div className="boutique-page">
-            <Header panierCount={cartCount} />
+            <Header />
             {loadError && (
                 <div className="api-off-banner" role="alert">
                     <p><strong>Impossible de charger les produits.</strong> Vérifiez que le backend est démarré (<code>python manage.py runserver</code> dans <code>backend/</code>) et que l&apos;URL API est correcte.</p>
@@ -372,7 +290,18 @@ const Boutique = () => {
 
                 {/* Sidebar desktop */}
                 <aside className="b-sidebar">
-                    <SidebarContent />
+                    <SidebarContent
+                        categories={categories}
+                        selectedCategory={selectedCategory}
+                        handleCategorySelect={handleCategorySelect}
+                        prixSlider={prixSlider}
+                        setPrixSlider={setPrixSlider}
+                        handlePrixFilter={handlePrixFilter}
+                        filtres={filtres}
+                        handleDisponibiliteChange={handleDisponibiliteChange}
+                        activeFiltersCount={activeFiltersCount}
+                        resetFilters={resetFilters}
+                    />
                 </aside>
 
                 {/* Zone principale */}
@@ -622,7 +551,18 @@ const Boutique = () => {
                                 </motion.button>
                             </div>
                             <div className="b-drawer-body">
-                                <SidebarContent />
+                                <SidebarContent
+                                    categories={categories}
+                                    selectedCategory={selectedCategory}
+                                    handleCategorySelect={handleCategorySelect}
+                                    prixSlider={prixSlider}
+                                    setPrixSlider={setPrixSlider}
+                                    handlePrixFilter={handlePrixFilter}
+                                    filtres={filtres}
+                                    handleDisponibiliteChange={handleDisponibiliteChange}
+                                    activeFiltersCount={activeFiltersCount}
+                                    resetFilters={resetFilters}
+                                />
                             </div>
                         </motion.div>
                     </>
@@ -633,5 +573,94 @@ const Boutique = () => {
         </div>
     );
 };
+
+
+const SidebarContent = ({
+    categories, selectedCategory, handleCategorySelect,
+    prixSlider, setPrixSlider, handlePrixFilter,
+    filtres, handleDisponibiliteChange,
+    activeFiltersCount, resetFilters
+}) => (
+    <div className="sidebar-inner">
+        {/* Catégories */}
+        <div className="sb-block">
+            <h4 className="sb-title">
+                <FiTag size={14} /> Catégories
+            </h4>
+            <ul className="sb-cat-list">
+                <li>
+                    <button
+                        className={`sb-cat-btn ${!selectedCategory ? 'sb-cat-active' : ''}`}
+                        onClick={() => handleCategorySelect(null)}
+                    >
+                        <span>Tous les produits</span>
+                        {!selectedCategory && <FiCheckCircle size={12} />}
+                    </button>
+                </li>
+                {Array.isArray(categories) && categories.map(cat => (
+                    <li key={cat.id || Math.random()}>
+                        <button
+                            className={`sb-cat-btn ${String(selectedCategory) === String(cat.id) ? 'sb-cat-active' : ''}`}
+                            onClick={() => handleCategorySelect(cat.id)}
+                        >
+                            <span>{cat.nom}</span>
+                            {String(selectedCategory) === String(cat.id)
+                                ? <FiCheckCircle size={12} />
+                                : <FiChevronDown size={12} />
+                            }
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+
+        {/* Prix */}
+        <div className="sb-block">
+            <h4 className="sb-title"><FiFilter size={14} /> Prix (FCFA)</h4>
+            <div className="sb-slider-wrap">
+                <input
+                    type="range"
+                    min={0} max={1000000} step={5000}
+                    value={prixSlider}
+                    onChange={e => setPrixSlider(Number(e.target.value))}
+                    className="sb-slider"
+                />
+                <div className="sb-price-labels">
+                    <span>0 FCFA</span>
+                    <span className="sb-price-val">{(prixSlider || 0).toLocaleString()} FCFA</span>
+                </div>
+            </div>
+            <button className="sb-filter-btn" onClick={handlePrixFilter}>
+                Appliquer
+            </button>
+        </div>
+
+        {/* Disponibilité */}
+        <div className="sb-block">
+            <h4 className="sb-title"><FiPackage size={14} /> Disponibilité</h4>
+            {[
+                { val: '', label: 'Tous les articles' },
+                { val: 'true', label: 'En stock' },
+                { val: 'false', label: 'Rupture de stock' }
+            ].map(opt => (
+                <label key={opt.val} className="sb-radio">
+                    <input
+                        type="radio" name="dispo" value={opt.val}
+                        checked={filtres.disponible === opt.val}
+                        onChange={() => handleDisponibiliteChange(opt.val)}
+                    />
+                    <span className="sb-radio-custom" />
+                    <span>{opt.label}</span>
+                </label>
+            ))}
+        </div>
+
+        {activeFiltersCount > 0 && (
+            <button className="sb-reset" onClick={resetFilters}>
+                <FiX size={13} /> Effacer tous les filtres
+            </button>
+        )}
+    </div>
+);
 
 export default Boutique;
