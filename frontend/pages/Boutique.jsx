@@ -32,13 +32,16 @@ const Boutique = () => {
     const [prixSlider, setPrixSlider] = useState(500000);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
-    const [filtres, setFiltres] = useState({
-        categorie: '',
-        prix_min: '',
-        prix_max: '',
-        recherche: '',
-        disponible: '',
-        tri: '-date_creation'
+    const [filtres, setFiltres] = useState(() => {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            categorie: params.get('categorie') || '',
+            prix_min: '',
+            prix_max: '',
+            recherche: params.get('search') || '',
+            disponible: '',
+            tri: '-date_creation'
+        };
     });
 
     const observerRef = useRef();
@@ -57,15 +60,12 @@ const Boutique = () => {
         const search = params.get('search') || '';
 
         setFiltres(prev => {
-            // Évite de réinitialiser si les valeurs sont déjà identiques pour éviter le clignotement
             if (prev.categorie === catId && prev.recherche === search) return prev;
             return { ...prev, categorie: catId, recherche: search };
         });
 
-        if (catId) setSelectedCategory(parseInt(catId));
-        else setSelectedCategory(null);
-
-        if (search) setSearchInput(search);
+        setSelectedCategory(catId ? parseInt(catId) : null);
+        setSearchInput(search);
     }, [location.search]);
 
     useEffect(() => {
@@ -73,8 +73,8 @@ const Boutique = () => {
     }, []);
 
     useEffect(() => {
-        // Ne réinitialise pas la liste si on est déjà en train de charger
-        // Cela évite l'effet "vide" pendant une fraction de seconde
+        // IMPORTANT: Ne JAMAIS vider 'produits' ici. 
+        // loadProduits s'occupera d'écraser la liste quand la nouvelle réponse arrivera.
         setPage(1);
         setHasMore(true);
         loadProduits(filtres, 1);
@@ -105,17 +105,22 @@ const Boutique = () => {
             };
             const data = await produitService.getAll(params);
             const results = Array.isArray(data?.results) ? data.results : (Array.isArray(data) ? data : []);
+
             if (pageNum === 1) {
+                // On remplace complètement la liste SEULEMENT si on a une réponse valide (même vide)
                 setProduits(results);
                 setLoadError(false);
             }
             else setProduits(prev => [...prev, ...results]);
+
             setHasMore(results.length === 12);
             setPage(pageNum);
         } catch (e) {
             console.error('Erreur chargement produits:', e);
             if (pageNum === 1) {
-                setProduits([]);
+                // S'il y a une erreur réseau, on ne vide PAS les produits s'il y en avait déjà.
+                // On active juste l'erreur pour la bannière.
+                if (produits.length === 0) setProduits([]);
                 setLoadError(true);
             }
             setHasMore(false);
@@ -142,15 +147,24 @@ const Boutique = () => {
         navigate({ search: params.toString() });
     };
 
-    const handlePrixFilter = () => applyFilter({ prix_max: String(prixSlider) }, true);
+    const handlePrixFilter = () => {
+        const f = { ...filtres, prix_max: String(prixSlider) };
+        setFiltres(f);
+        setDrawerOpen(false);
+    };
 
-    const handleDisponibiliteChange = (val) => applyFilter({ disponible: val }, true);
+    const handleDisponibiliteChange = (val) => {
+        const f = { ...filtres, disponible: val };
+        setFiltres(f);
+        setDrawerOpen(false);
+    };
 
     const resetFilters = () => {
         setSearchInput('');
         setPrixSlider(500000);
         setDrawerOpen(false);
-        navigate('/boutique');
+        // On réinitialise via la navigation pour que useEffect(location.search) s'occupe du reste
+        navigate('/shop');
     };
 
     const handleSearch = () => {

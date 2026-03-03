@@ -22,7 +22,7 @@ export const getImageUrl = (imagePath) => {
     const baseUrl = getBackendBaseUrl();
     // S'assure que le chemin commence par /
     const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
-    
+
     // Si le chemin ne contient pas /media/ et n'est pas un chemin statique, on l'ajoute (optionnel selon config DRF)
     // Mais ici, on va faire simple : on concatène proprement.
     return `${baseUrl}${normalizedPath}`;
@@ -30,7 +30,7 @@ export const getImageUrl = (imagePath) => {
 
 const api = axios.create({
     baseURL: baseURL,
-    timeout: 15000,
+    timeout: 60000,
     headers: {
         'Content-Type': 'application/json',
     }
@@ -117,4 +117,4 @@ export const produitService = {
 };
 
 
-    export default api;
+export default api;
