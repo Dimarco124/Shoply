@@ -8,10 +8,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-ta-clé-secrète-de-dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('RENDER', False) == False
+DEBUG = 'RENDER' not in os.environ
 
 # Hôtes autorisés (inclut localhost, Render, et toutes origines si besoin)
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com']
+# Hôtes autorisés
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com', 'shoply-jgn9.onrender.com']
 env_allowed_hosts = os.environ.get('ALLOWED_HOSTS')
 if env_allowed_hosts:
     ALLOWED_HOSTS.extend(env_allowed_hosts.split(','))
@@ -105,6 +106,18 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Configuration pour que Whitenoise serve les fichiers efficacement
+# Configuration des stockages (Django 4.2+)
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
+
+# Pour la compatibilité si une version plus ancienne est utilisée
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_URL = '/media/'
@@ -117,8 +130,7 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET')
 }
 
-if not DEBUG:
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# Suppression de l'ancien bloc redondant de DEFAULT_FILE_STORAGE
 
 # CORS : en production mettre l'URL du frontend (Vercel/Netlify)
 _CORS_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173')
