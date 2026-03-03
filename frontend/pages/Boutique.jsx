@@ -18,6 +18,7 @@ const Boutique = () => {
     const { addToCart } = useCart();
     const location = useLocation();
     const navigate = useNavigate();
+    const requestRef = useRef(0);
 
     const [produits, setProduits] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -91,8 +92,10 @@ const Boutique = () => {
     };
 
     const loadProduits = async (f, pageNum = 1) => {
+        const currentRequestId = ++requestRef.current;
         try {
             setLoading(pageNum === 1);
+            if (pageNum === 1) setLoadError(false);
             setLoadingMore(pageNum > 1);
             const params = {
                 page: pageNum, page_size: 12,
@@ -104,14 +107,25 @@ const Boutique = () => {
                 ordering: f.tri
             };
             const data = await produitService.getAll(params);
+
+            // Si une requête plus récente a été lancée entre-temps, on ignore celle-ci
+            if (currentRequestId !== requestRef.current) return;
+
             const results = Array.isArray(data?.results) ? data.results : (Array.isArray(data) ? data : []);
 
             if (pageNum === 1) {
-                // On remplace complètement la liste SEULEMENT si on a une réponse valide (même vide)
+                // On remplace complètement la liste
                 setProduits(results);
                 setLoadError(false);
             }
-            else setProduits(prev => [...prev, ...results]);
+            else {
+                // On s'assure de ne pas ajouter de doublons si les requêtes se sont chevauchées
+                setProduits(prev => {
+                    const existingIds = new Set(prev.map(p => p.id));
+                    const uniqueNewResults = results.filter(p => !existingIds.has(p.id));
+                    return [...prev, ...uniqueNewResults];
+                });
+            }
 
             setHasMore(results.length === 12);
             setPage(pageNum);
