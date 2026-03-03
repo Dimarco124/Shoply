@@ -6,7 +6,7 @@ import {
     FiChevronDown, FiStar, FiX, FiSliders,
     FiPackage, FiTag, FiCheckCircle, FiFilter
 } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { produitService, categorieService, getBackendBaseUrl, getImageUrl } from '../services/api';
@@ -17,6 +17,7 @@ import noteSimulee from '../src/utils/noteSimulee';
 const Boutique = () => {
     const { cartCount, addToCart } = useCart();
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [produits, setProduits] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -52,22 +53,29 @@ const Boutique = () => {
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
-        const catId = params.get('categorie');
-        if (catId) {
-            const categoryId = parseInt(catId);
-            setSelectedCategory(categoryId);
-            setFiltres(prev => ({ ...prev, categorie: catId }));
-        } else {
-            setSelectedCategory(null);
-            setFiltres(prev => ({ ...prev, categorie: '' }));
-        }
+        const catId = params.get('categorie') || '';
+        const search = params.get('search') || '';
+
+        setFiltres(prev => {
+            // Évite de réinitialiser si les valeurs sont déjà identiques pour éviter le clignotement
+            if (prev.categorie === catId && prev.recherche === search) return prev;
+            return { ...prev, categorie: catId, recherche: search };
+        });
+
+        if (catId) setSelectedCategory(parseInt(catId));
+        else setSelectedCategory(null);
+
+        if (search) setSearchInput(search);
     }, [location.search]);
 
-    useEffect(() => { loadCategories(); }, []);
+    useEffect(() => {
+        loadCategories();
+    }, []);
 
     useEffect(() => {
+        // Ne réinitialise pas la liste si on est déjà en train de charger
+        // Cela évite l'effet "vide" pendant une fraction de seconde
         setPage(1);
-        setProduits([]);
         setHasMore(true);
         loadProduits(filtres, 1);
     }, [filtres]);
@@ -128,13 +136,10 @@ const Boutique = () => {
     };
 
     const handleCategorySelect = (id) => {
-        applyFilter({ categorie: id || '' }, false);
-        setSelectedCategory(id);
-        setDrawerOpen(false);
-        const url = new URL(window.location);
-        if (id) url.searchParams.set('categorie', id);
-        else url.searchParams.delete('categorie');
-        window.history.pushState({}, '', url);
+        const params = new URLSearchParams(location.search);
+        if (id) params.set('categorie', id);
+        else params.delete('categorie');
+        navigate({ search: params.toString() });
     };
 
     const handlePrixFilter = () => applyFilter({ prix_max: String(prixSlider) }, true);
@@ -142,18 +147,18 @@ const Boutique = () => {
     const handleDisponibiliteChange = (val) => applyFilter({ disponible: val }, true);
 
     const resetFilters = () => {
-        const r = { categorie: '', prix_min: '', prix_max: '', recherche: '', disponible: '', tri: '-date_creation' };
-        setFiltres(r);
-        setSelectedCategory(null);
         setSearchInput('');
         setPrixSlider(500000);
         setDrawerOpen(false);
-        const url = new URL(window.location);
-        url.searchParams.delete('categorie');
-        window.history.pushState({}, '', url);
+        navigate('/boutique');
     };
 
-    const handleSearch = () => applyFilter({ recherche: searchInput });
+    const handleSearch = () => {
+        const params = new URLSearchParams(location.search);
+        if (searchInput) params.set('search', searchInput);
+        else params.delete('search');
+        navigate({ search: params.toString() });
+    };
 
     // getImageUrl est maintenant importé de ../services/api
 
