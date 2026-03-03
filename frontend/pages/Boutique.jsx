@@ -419,137 +419,157 @@ const Boutique = () => {
                     </div>
 
                     {/* Produits */}
-                    {loading ? (
-                        <div className={viewMode === 'grid' ? 'b-grid' : 'b-list'}>
-                            {[...Array(9)].map((_, i) => (
-                                <div key={i} className="b-skeleton">
-                                    <div className="bsk-img" />
-                                    <div className="bsk-body">
-                                        <div className="bsk-line" />
-                                        <div className="bsk-line bsk-short" />
-                                        <div className="bsk-line bsk-price" />
+                    <div style={{ position: 'relative', minHeight: '400px' }}>
+                        {/* Overlay de chargement discret quand on a déjà des produits */}
+                        {loading && produits.length > 0 && (
+                            <div style={{
+                                position: 'absolute',
+                                top: 0, left: 0, right: 0, bottom: 0,
+                                backgroundColor: 'rgba(255,255,255,0.4)',
+                                zIndex: 10,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                paddingTop: '40px',
+                                pointerEvents: 'none',
+                                backdropFilter: 'blur(2px)'
+                            }}>
+                                <div className="b-spinner" />
+                            </div>
+                        )}
+
+                        {loading && produits.length === 0 ? (
+                            <div className={viewMode === 'grid' ? 'b-grid' : 'b-list'}>
+                                {[...Array(9)].map((_, i) => (
+                                    <div key={i} className="b-skeleton">
+                                        <div className="bsk-img" />
+                                        <div className="bsk-body">
+                                            <div className="bsk-line" />
+                                            <div className="bsk-line bsk-short" />
+                                            <div className="bsk-line bsk-price" />
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : produits.length === 0 ? (
-                        <motion.div
-                            className="b-empty"
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            <div className="b-empty-icon">🔍</div>
-                            <h3>Aucun produit trouvé</h3>
-                            <p>Essayez de modifier vos critères de recherche ou de filtres</p>
-                            <button onClick={resetFilters}>Réinitialiser les filtres</button>
-                        </motion.div>
-                    ) : (
-                        <>
+                                ))}
+                            </div>
+                        ) : produits.length === 0 ? (
                             <motion.div
-                                className={viewMode === 'grid' ? 'b-grid' : 'b-list'}
-                                variants={containerVariants}
-                                initial="hidden"
-                                animate="visible"
+                                className="b-empty"
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5 }}
                             >
-                                {produits.map((produit, index) => {
-                                    const note = noteSimulee(produit.id);
-                                    return (
-                                        <motion.article
-                                            key={produit.id}
-                                            variants={itemVariants}
-                                            className={`b-card ${viewMode === 'list' ? 'b-card-list' : ''} ${!produit.disponible ? 'b-card-out' : ''}`}
-                                            ref={index === produits.length - 1 ? lastProductRef : null}
-                                            whileHover={viewMode === 'grid' ? { y: -6 } : {}}
-                                        >
-                                            <Link to={`/produit/${produit.id}`} className="b-card-link">
-                                                {/* Image */}
-                                                <div className="b-card-img-wrap">
-                                                    <img
-                                                        src={getImageUrl(produit.image)}
-                                                        alt={produit.nom}
-                                                        loading="lazy"
-                                                    />
-                                                    <div className="b-card-img-overlay" />
-                                                    {produit.est_nouveau && (
-                                                        <span className="b-badge b-badge-new">NEW</span>
-                                                    )}
-                                                    {!produit.disponible && (
-                                                        <span className="b-badge b-badge-out">Rupture</span>
-                                                    )}
-                                                    {produit.en_solde && (
-                                                        <span className="b-badge b-badge-sale">SOLDE</span>
-                                                    )}
-                                                    <motion.button
-                                                        className="b-quick-add"
-                                                        onClick={e => handleAddToCart(produit, e)}
-                                                        whileHover={{ scale: 1.05 }}
-                                                        whileTap={{ scale: 0.92 }}
-                                                        title="Ajouter au panier"
-                                                    >
-                                                        <FiShoppingBag size={14} /> Ajouter
-                                                    </motion.button>
-                                                </div>
-
-                                                {/* Infos */}
-                                                <div className="b-card-body">
-                                                    {produit.categorie_nom && (
-                                                        <p className="b-card-cat">{produit.categorie_nom}</p>
-                                                    )}
-                                                    <h3 className="b-card-nom">{produit.nom}</h3>
-
-                                                    {viewMode === 'list' && produit.description && (
-                                                        <p className="b-card-desc">
-                                                            {produit.description.substring(0, 120)}…
-                                                        </p>
-                                                    )}
-
-                                                    <div className="b-card-stars">
-                                                        {[...Array(5)].map((_, i) => (
-                                                            <FiStar
-                                                                key={i}
-                                                                size={11}
-                                                                className={i < note ? 'bstar-on' : 'bstar-off'}
-                                                            />
-                                                        ))}
-                                                        <span className="b-star-count">({note}.0)</span>
-                                                    </div>
-
-                                                    <div className="b-card-footer">
-                                                        <span className="b-card-prix">{produit.prix_format}</span>
+                                <div className="b-empty-icon">🔍</div>
+                                <h3>Aucun produit trouvé</h3>
+                                <p>Essayez de modifier vos critères de recherche ou de filtres</p>
+                                <button onClick={resetFilters}>Réinitialiser les filtres</button>
+                            </motion.div>
+                        ) : (
+                            <>
+                                <motion.div
+                                    className={viewMode === 'grid' ? 'b-grid' : 'b-list'}
+                                    variants={containerVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                    style={{ opacity: loading ? 0.7 : 1, transition: 'opacity 0.3s' }}
+                                >
+                                    {produits.map((produit, index) => {
+                                        const note = noteSimulee(produit.id);
+                                        return (
+                                            <motion.article
+                                                key={produit.id}
+                                                variants={itemVariants}
+                                                className={`b-card ${viewMode === 'list' ? 'b-card-list' : ''} ${!produit.disponible ? 'b-card-out' : ''}`}
+                                                ref={index === produits.length - 1 ? lastProductRef : null}
+                                                whileHover={viewMode === 'grid' ? { y: -6 } : {}}
+                                            >
+                                                <Link to={`/produit/${produit.id}`} className="b-card-link">
+                                                    {/* Image */}
+                                                    <div className="b-card-img-wrap">
+                                                        <img
+                                                            src={getImageUrl(produit.image)}
+                                                            alt={produit.nom}
+                                                            loading="lazy"
+                                                        />
+                                                        <div className="b-card-img-overlay" />
+                                                        {produit.est_nouveau && (
+                                                            <span className="b-badge b-badge-new">NEW</span>
+                                                        )}
+                                                        {!produit.disponible && (
+                                                            <span className="b-badge b-badge-out">Rupture</span>
+                                                        )}
+                                                        {produit.en_solde && (
+                                                            <span className="b-badge b-badge-sale">SOLDE</span>
+                                                        )}
                                                         <motion.button
-                                                            className="b-cart-icon-btn"
+                                                            className="b-quick-add"
                                                             onClick={e => handleAddToCart(produit, e)}
-                                                            whileHover={{ scale: 1.12 }}
-                                                            whileTap={{ scale: 0.9 }}
+                                                            whileHover={{ scale: 1.05 }}
+                                                            whileTap={{ scale: 0.92 }}
                                                             title="Ajouter au panier"
                                                         >
-                                                            <FiShoppingBag size={14} />
+                                                            <FiShoppingBag size={14} /> Ajouter
                                                         </motion.button>
                                                     </div>
-                                                </div>
-                                            </Link>
-                                        </motion.article>
-                                    );
-                                })}
-                            </motion.div>
 
-                            {loadingMore && (
-                                <div className="b-loading-more">
-                                    <div className="b-spinner" />
-                                    <span>Chargement…</span>
-                                </div>
-                            )}
+                                                    {/* Infos */}
+                                                    <div className="b-card-body">
+                                                        {produit.categorie_nom && (
+                                                            <p className="b-card-cat">{produit.categorie_nom}</p>
+                                                        )}
+                                                        <h3 className="b-card-nom">{produit.nom}</h3>
 
-                            {!hasMore && produits.length > 0 && (
-                                <div className="b-end">
-                                    <div className="b-end-line" />
-                                    <span>Fin du catalogue</span>
-                                    <div className="b-end-line" />
-                                </div>
-                            )}
-                        </>
-                    )}
+                                                        {viewMode === 'list' && produit.description && (
+                                                            <p className="b-card-desc">
+                                                                {produit.description.substring(0, 120)}…
+                                                            </p>
+                                                        )}
+
+                                                        <div className="b-card-stars">
+                                                            {[...Array(5)].map((_, i) => (
+                                                                <FiStar
+                                                                    key={i}
+                                                                    size={11}
+                                                                    className={i < note ? 'bstar-on' : 'bstar-off'}
+                                                                />
+                                                            ))}
+                                                            <span className="b-star-count">({note}.0)</span>
+                                                        </div>
+
+                                                        <div className="b-card-footer">
+                                                            <span className="b-card-prix">{produit.prix_format}</span>
+                                                            <motion.button
+                                                                className="b-cart-icon-btn"
+                                                                onClick={e => handleAddToCart(produit, e)}
+                                                                whileHover={{ scale: 1.12 }}
+                                                                whileTap={{ scale: 0.9 }}
+                                                                title="Ajouter au panier"
+                                                            >
+                                                                <FiShoppingBag size={14} />
+                                                            </motion.button>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            </motion.article>
+                                        );
+                                    })}
+                                </motion.div>
+
+                                {loadingMore && (
+                                    <div className="b-loading-more">
+                                        <div className="b-spinner" />
+                                        <span>Chargement…</span>
+                                    </div>
+                                )}
+
+                                {!hasMore && produits.length > 0 && (
+                                    <div className="b-end">
+                                        <div className="b-end-line" />
+                                        <span>Fin du catalogue</span>
+                                        <div className="b-end-line" />
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
                 </main>
             </div>
 
