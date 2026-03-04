@@ -21,6 +21,14 @@ if env_allowed_hosts:
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
+# Vérification de la présence des modules externes (Cloudinary)
+try:
+    import cloudinary
+    import cloudinary_storage
+    HAS_CLOUDINARY = True
+except ImportError:
+    HAS_CLOUDINARY = False
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -28,13 +36,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloudinary_storage',
-    'cloudinary',
     'rest_framework',
     'corsheaders',
     'django_filters',
     'shop',
 ]
+
+if HAS_CLOUDINARY:
+    INSTALLED_APPS.insert(6, 'cloudinary_storage')
+    INSTALLED_APPS.insert(7, 'cloudinary')
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
