@@ -423,15 +423,15 @@ pointer-events: none;
 .pan-items-header { display: none; }
 .pan-item {
     grid-template-columns: 72px 1fr 40px;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto auto auto;
     gap: 12px;
     padding: 20px 0;
 }
-.pan-item-img { width: 72px; height: 86px; }
-.pan-item-info { grid-column: 2; }
+.pan-item-img { width: 72px; height: 86px; grid-row: span 3; }
+.pan-item-info { grid-column: 2; grid-row: 1; }
 .pan-item-remove { grid-column: 3; grid-row: 1; }
-.pan-qty { grid-column: 2; justify-content: flex-start; }
-.pan-item-total { grid-column: 2; text-align: left; font-size: 18px; }
+.pan-qty { grid-column: 2; grid-row: 2; justify-content: flex-start; }
+.pan-item-total { grid-column: 2; grid-row: 3; text-align: left; font-size: 18px; margin-top: 8px; }
 .pan-header { padding: 32px 0 28px; }
 }
 @media (max-width: 480px) {
