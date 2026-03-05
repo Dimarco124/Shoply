@@ -15,6 +15,7 @@ import Connexion from '../pages/Connexion';
 import Inscription from '../pages/Inscription';
 import MonCompte from '../pages/MonCompte';
 import ProtectedRoute from '../components/ProtectedRoute';
+import Checkout from '../pages/Checkout';
 
 
 
@@ -38,6 +39,11 @@ function App() {
             <Route path="/mon-compte" element={
               <ProtectedRoute>
                 <MonCompte />
+              </ProtectedRoute>
+            } />
+            <Route path="/checkout" element={
+              <ProtectedRoute>
+                <Checkout />
               </ProtectedRoute>
             } />
           </Routes>

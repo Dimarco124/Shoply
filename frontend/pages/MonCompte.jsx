@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiUser, FiMail, FiLock, FiLogOut, FiCheck, FiEdit2 } from 'react-icons/fi';
+import { FiUser, FiMail, FiLock, FiLogOut, FiCheck, FiEdit2, FiShoppingBag } from 'react-icons/fi';
 import { useAuth } from '../src/context/AuthContext';
+import { orderService } from '../services/api';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './MonCompte.css';
@@ -29,6 +30,36 @@ const MonCompte = () => {
     const [pwdMsg, setPwdMsg] = useState('');
     const [pwdErr, setPwdErr] = useState('');
     const [pwdLoading, setPwdLoading] = useState(false);
+
+    // Commandes
+    const [orders, setOrders] = useState([]);
+    const [ordersLoading, setOrdersLoading] = useState(true);
+
+    React.useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const data = await orderService.getMyOrders();
+                setOrders(data);
+            } catch (err) {
+                console.error("Erreur chargement commandes", err);
+            } finally {
+                setOrdersLoading(false);
+            }
+        };
+        fetchOrders();
+    }, []);
+
+    const getStatusLabel = (status) => {
+        const statuses = {
+            'PENDING': 'En attente',
+            'PAID': 'Payée',
+            'PROCESSING': 'Préparation',
+            'SHIPPED': 'Expédiée',
+            'DELIVERED': 'Livrée',
+            'CANCELLED': 'Annulée'
+        };
+        return statuses[status] || status;
+    };
 
     const handleProfileChange = (e) => {
         setProfileData({ ...profileData, [e.target.name]: e.target.value });
@@ -173,6 +204,49 @@ const MonCompte = () => {
                                 {profileLoading ? 'Enregistrement...' : 'Enregistrer les modifications'}
                             </button>
                         </form>
+                    </div>
+
+                    {/* Section Mes Commandes */}
+                    <div className="account-section">
+                        <h2 className="section-title">
+                            <FiShoppingBag /> Mes Commandes
+                        </h2>
+
+                        {ordersLoading ? (
+                            <div className="orders-loading">Chargement de vos commandes...</div>
+                        ) : orders.length === 0 ? (
+                            <div className="orders-empty">
+                                <p>Vous n'avez pas encore passé de commande.</p>
+                                <Link to="/shop" className="btn-shop">Découvrir la boutique</Link>
+                            </div>
+                        ) : (
+                            <div className="orders-list">
+                                {orders.map(order => (
+                                    <div key={order.id} className="order-card">
+                                        <div className="order-header">
+                                            <span className="order-id">Commande #{order.id}</span>
+                                            <span className="order-date">{new Date(order.created_at).toLocaleDateString()}</span>
+                                        </div>
+                                        <div className="order-body">
+                                            <div className="order-info">
+                                                <span className="order-total">{order.total_price.toLocaleString()} FCFA</span>
+                                                <span className={`order-status status-${order.status.toLowerCase()}`}>
+                                                    {getStatusLabel(order.status)}
+                                                </span>
+                                            </div>
+                                            <div className="order-payment">
+                                                {order.payment_method === 'GENIUSPAY' ? 'Paiement Mobile' : 'WhatsApp'}
+                                                {order.is_paid ? (
+                                                    <span className="paid-badge"><FiCheck /> Payée</span>
+                                                ) : (
+                                                    <span className="unpaid-badge">En attente</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     {/* Section Mot de passe */}

@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from .models import Categorie, Produit
+from .models import Categorie, Produit, ContactMessage, Order, OrderItem
 
 
 @admin.register(Categorie)
@@ -72,4 +72,34 @@ class ProduitAdmin(admin.ModelAdmin):
             return f'<img src="{obj.image.url}" style="max-height: 100px;"/>'
         return "Pas d'image"
     apercu_image.short_description = "Aperçu"
-    apercu_image.allow_tags = True  # Permet d'afficher du HTML (pour l'image)
+    apercu_image.allow_tags = True
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 0
+    readonly_fields = ('product', 'quantity', 'price')
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nom_complet', 'total_price', 'payment_method', 'status', 'is_paid', 'created_at')
+    list_filter = ('status', 'payment_method', 'is_paid', 'created_at')
+    search_fields = ('id', 'nom_complet', 'user__username', 'transaction_id')
+    readonly_fields = ('created_at', 'updated_at', 'paid_at')
+    inlines = [OrderItemInline]
+    
+    fieldsets = (
+        ('Informations Client', {
+            'fields': ('user', 'nom_complet', 'email', 'telephone')
+        }),
+        ('Livraison', {
+            'fields': ('adresse', 'ville')
+        }),
+        ('Paiement', {
+            'fields': ('total_price', 'payment_method', 'status', 'is_paid', 'paid_at', 'transaction_id')
+        }),
+        ('Dates', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )

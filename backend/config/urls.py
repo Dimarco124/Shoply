@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('shop.urls')),
     path('api/auth/', include('shop.auth_urls')),
+    path('api/', include('shop.order_urls')),
 ]
 
 # Cette ligne est CRUCIALE pour servir les médias en développement

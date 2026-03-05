@@ -186,6 +186,147 @@
     border-color: #C0392B;
 }
 
+/* --- MES COMMANDES --- */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.order-card {
+    background: #fff;
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+.order-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border-soft);
+    padding-bottom: 10px;
+}
+
+.order-id {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--charcoal);
+}
+
+.order-date {
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.order-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.order-total {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--gold);
+}
+
+.order-status {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    width: fit-content;
+    letter-spacing: 0.1em;
+}
+
+.status-pending {
+    background: #fff8e1;
+    color: #f39c12;
+}
+
+.status-paid {
+    background: #e8f5e9;
+    color: #27ae60;
+}
+
+.status-processing {
+    background: #e3f2fd;
+    color: #2980b9;
+}
+
+.status-shipped {
+    background: #f3e5f5;
+    color: #9b59b6;
+}
+
+.status-delivered {
+    background: #e0f2f1;
+    color: #16a085;
+}
+
+.status-cancelled {
+    background: #ffebee;
+    color: #c0392b;
+}
+
+.order-payment {
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.paid-badge {
+    color: #27ae60;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.unpaid-badge {
+    color: #f39c12;
+    font-weight: 700;
+}
+
+.orders-loading,
+.orders-empty {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--muted);
+}
+
+.btn-shop {
+    display: inline-block;
+    margin-top: 15px;
+    background: var(--charcoal);
+    color: var(--cream);
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
 @media (max-width: 480px) {
     .account-section {
         padding: 28px 20px;

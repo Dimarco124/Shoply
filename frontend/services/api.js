@@ -36,6 +36,18 @@ const api = axios.create({
     }
 });
 
+// Intercepteur pour ajouter le token de manière sécurisée
+api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
 // Toujours retourner un tableau (évite les crashs si la réponse n'est pas au format attendu)
 function toArray(data) {
     if (Array.isArray(data)) return data;
@@ -112,6 +124,29 @@ export const produitService = {
         } catch (error) {
             console.error('Erreur chargement produit', id, error?.message || error);
             throw error;
+        }
+    }
+};
+
+// --- SERVICES DE COMMANDES ---
+export const orderService = {
+    create: async (orderData) => {
+        try {
+            const response = await api.post('orders/', orderData);
+            return response.data;
+        } catch (error) {
+            console.error('Erreur création commande:', error?.message || error);
+            throw error;
+        }
+    },
+
+    getMyOrders: async () => {
+        try {
+            const response = await api.get('orders/');
+            return toArray(response.data);
+        } catch (error) {
+            console.error('Erreur chargement historique commandes:', error?.message || error);
+            return [];
         }
     }
 };
