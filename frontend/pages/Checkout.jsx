@@ -52,9 +52,12 @@ const Checkout = () => {
                 const message = `*COMMANDE #${response.id}*\n\nClient: ${formData.nom_complet}\nArticles:\n${itemsList}\n\n*TOTAL: ${cartTotal.toLocaleString()} FCFA*\n\nJe souhaite régler par Wave/Orange Money.`;
                 window.open(`https://wa.me/225XXXXXXXXX?text=${encodeURIComponent(message)}`, '_blank');
             } else if (formData.payment_method === 'GENIUSPAY') {
-                // Flux GeniusPay (Simulation ou Redirection vers Checkout URL si fournie par le backend)
-                // Pour l'instant, on simule le succès ou on attend que le service GeniusPay soit codé au complet
-                alert("Redirection vers GeniusPay (Wave/Orange/MTN/Moov)...");
+                if (response.checkout_url) {
+                    window.location.href = response.checkout_url;
+                    return; // On s'arrête ici car on redirige
+                } else {
+                    alert("Erreur d'initiation du paiement GeniusPay. Veuillez essayer WhatsApp ou réessayez plus tard.");
+                }
             }
 
             setOrderSuccess(response);

@@ -173,3 +173,8 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': False,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+# Configuration GeniusPay
+GENIUSPAY_TOKEN = os.environ.get('GENIUSPAY_TOKEN', '')
+GENIUSPAY_SANDBOX = os.environ.get('GENIUSPAY_SANDBOX', 'True') == 'True'
+GENIUSPAY_BASE_URL = "https://api.genius.ci/v1" if not GENIUSPAY_SANDBOX else "https://sandbox.genius.ci/v1"
+GENIUSPAY_WEBHOOK_URL = os.environ.get('GENIUSPAY_WEBHOOK_URL', '')

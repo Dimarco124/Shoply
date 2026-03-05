@@ -1,10 +1,8 @@
 # backend/shop/urls.py
 
 from django.urls import path
-from . import views
+from . import views, payment_views
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.models import User
-from django.http import HttpResponse
 
 
 urlpatterns = [
@@ -22,5 +20,8 @@ urlpatterns = [
         views.ProduitsParCategorie.as_view(), 
         name='categorie-produits'),
     
+    # Webhook GeniusPay
+    path('webhooks/geniuspay/', 
+        payment_views.geniuspay_webhook, 
+        name='geniuspay-webhook'),
 ]
-
