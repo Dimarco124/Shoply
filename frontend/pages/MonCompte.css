@@ -190,41 +190,43 @@
 .orders-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin: 20px 0;
+    gap: 20px;
+    margin: 32px 0;
 }
 
 .order-card {
-    background: #fff;
+    background: var(--white);
     border: 1px solid var(--border-soft);
-    border-radius: 12px;
-    padding: 20px;
-    transition: all 0.3s;
+    padding: 24px;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .order-card:hover {
     border-color: var(--gold);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
 }
 
 .order-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
     border-bottom: 1px solid var(--border-soft);
-    padding-bottom: 10px;
+    padding-bottom: 12px;
 }
 
 .order-id {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
+    font-size: 18px;
     font-weight: 600;
     color: var(--charcoal);
 }
 
 .order-date {
-    font-size: 0.85rem;
+    font-size: 11px;
     color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
 }
 
 .order-body {
@@ -236,95 +238,111 @@
 .order-info {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .order-total {
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--charcoal);
 }
 
 .order-status {
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 9px;
+    font-weight: 600;
     text-transform: uppercase;
     padding: 4px 12px;
-    border-radius: 20px;
     width: fit-content;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
+    border: 1px solid transparent;
 }
 
 .status-pending {
-    background: #fff8e1;
-    color: #f39c12;
+    background: var(--cream);
+    color: #B08A4D;
+    border-color: var(--gold-pale);
 }
 
 .status-paid {
-    background: #e8f5e9;
-    color: #27ae60;
+    background: #F4F9F6;
+    color: #5A8A6A;
+    border-color: rgba(90, 138, 106, 0.2);
 }
 
 .status-processing {
-    background: #e3f2fd;
-    color: #2980b9;
+    background: #F0F7FB;
+    color: #3498db;
+    border-color: rgba(52, 152, 219, 0.2);
 }
 
 .status-shipped {
-    background: #f3e5f5;
+    background: #F9F5FB;
     color: #9b59b6;
+    border-color: rgba(155, 89, 182, 0.2);
 }
 
 .status-delivered {
-    background: #e0f2f1;
-    color: #16a085;
+    background: #F4F9F6;
+    color: #5A8A6A;
+    border-color: rgba(90, 138, 106, 0.2);
 }
 
 .status-cancelled {
-    background: #ffebee;
-    color: #c0392b;
+    background: var(--danger-pale);
+    color: var(--danger);
+    border-color: rgba(192, 57, 43, 0.2);
 }
 
 .order-payment {
     text-align: right;
-    font-size: 0.85rem;
+    font-size: 11px;
     color: var(--muted);
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .paid-badge {
-    color: #27ae60;
+    color: var(--success);
     font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
 }
 
 .unpaid-badge {
-    color: #f39c12;
+    color: #B08A4D;
     font-weight: 700;
 }
 
 .orders-loading,
 .orders-empty {
     text-align: center;
-    padding: 40px 0;
+    padding: 64px 0;
     color: var(--muted);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-style: italic;
 }
 
 .btn-shop {
     display: inline-block;
-    margin-top: 15px;
+    margin-top: 24px;
     background: var(--charcoal);
     color: var(--cream);
-    padding: 12px 24px;
-    border-radius: 4px;
+    padding: 14px 28px;
     text-decoration: none;
     font-size: 11px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+    transition: background 0.3s;
+}
+
+.btn-shop:hover {
+    background: var(--brown);
 }
 
 @media (max-width: 480px) {
