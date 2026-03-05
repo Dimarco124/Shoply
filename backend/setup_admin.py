@@ -11,8 +11,8 @@ from django.contrib.auth.models import User
 
 # On récupère les identifiants depuis les variables d'environnement (ex: sur Render)
 # avec des valeurs par défaut au cas où
-username = os.environ.get('ADMIN_USERNAME', 'admin')
-password = os.environ.get('ADMIN_PASSWORD', 'SuperMotDePasse123!')
+username = os.environ.get('ADMIN_USERNAME', 'valdes')
+password = os.environ.get('ADMIN_PASSWORD', '..Dimarco124')
 email = os.environ.get('ADMIN_EMAIL', 'admin@monsite.com')
 
 # On vérifie si ce superutilisateur existe déjà
