@@ -7,6 +7,7 @@ from django.views.static import serve
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('shop.urls')),
+    path('api/auth/', include('shop.auth_urls')),
 ]
 
 # Cette ligne est CRUCIALE pour servir les médias en développement

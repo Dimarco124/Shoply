@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap');
+
+.account-page {
+    background: #FAF7F2;
+    color: #2C2820;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+}
+
+.account-container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 120px 24px 60px;
+}
+
+/* ── Hero ── */
+.account-hero {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.account-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #2C2820;
+    color: #FAF7F2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 300;
+    margin: 0 auto 16px;
+}
+
+.account-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    margin-bottom: 4px;
+}
+
+.account-email {
+    font-size: 14px;
+    color: #9C8E80;
+}
+
+.account-member {
+    font-size: 12px;
+    color: #C4B9AC;
+    margin-top: 4px;
+}
+
+/* ── Sections ── */
+.account-section {
+    background: #FFFFFF;
+    border: 1px solid rgba(74, 63, 53, 0.1);
+    padding: 36px 32px;
+    margin-bottom: 24px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #4A3F35;
+    margin-bottom: 24px;
+}
+
+.account-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Réutilise les styles de Connexion.css */
+.account-page .auth-field label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9C8E80;
+    margin-bottom: 8px;
+}
+
+.account-page .auth-field input {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1px solid rgba(74, 63, 53, 0.15);
+    background: #FAF7F2;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: #2C2820;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.account-page .auth-field input:focus {
+    border-color: #B8924A;
+}
+
+.email-readonly input {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.account-page .auth-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px;
+    margin-top: 4px;
+    background: #2C2820;
+    color: #FAF7F2;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s;
+}
+
+.account-page .auth-submit:hover:not(:disabled) {
+    background: #4A3F35;
+}
+
+.account-page .auth-error {
+    background: #FDECEA;
+    color: #C0392B;
+    padding: 12px 16px;
+    font-size: 13px;
+    border-left: 3px solid #C0392B;
+}
+
+.account-page .auth-success {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(90, 138, 106, 0.1);
+    color: #5A8A6A;
+    padding: 12px 16px;
+    font-size: 13px;
+    border-left: 3px solid #5A8A6A;
+}
+
+/* ── Déconnexion ── */
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: #C0392B;
+    border: 1px solid rgba(192, 57, 43, 0.3);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+.logout-btn:hover {
+    background: rgba(192, 57, 43, 0.05);
+    border-color: #C0392B;
+}
+
+@media (max-width: 480px) {
+    .account-section {
+        padding: 28px 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .account-name {
+        font-size: 26px;
+    }
+}
