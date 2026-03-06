@@ -50,7 +50,7 @@ const Checkout = () => {
                     .map(item => `${item.nom} x${item.quantity}`)
                     .join('\n');
                 const message = `*COMMANDE #${response.id}*\n\nClient: ${formData.nom_complet}\nArticles:\n${itemsList}\n\n*TOTAL: ${cartTotal.toLocaleString()} FCFA*\n\nJe souhaite régler par Wave/Orange Money.`;
-                window.open(`https://wa.me/225XXXXXXXXX?text=${encodeURIComponent(message)}`, '_blank');
+                window.open(`https://wa.me/2250554356019?text=${encodeURIComponent(message)}`, '_blank');
             } else if (formData.payment_method === 'GENIUSPAY') {
                 if (response.checkout_url) {
                     window.location.href = response.checkout_url;
