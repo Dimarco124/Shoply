@@ -24,7 +24,6 @@ const MonCompte = () => {
             navigate('/mon-compte', { replace: true });
         }
     }, [searchParams, navigate, clearCart]);
- Westchester
 
     // Profil
     const [profileData, setProfileData] = useState({
