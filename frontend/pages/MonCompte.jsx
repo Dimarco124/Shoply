@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiUser, FiMail, FiLock, FiLogOut, FiCheck, FiEdit2, FiShoppingBag } from 'react-icons/fi';
 import { useAuth } from '../src/context/AuthContext';
@@ -13,17 +13,18 @@ const MonCompte = () => {
     const navigate = useNavigate();
     const { user, logout, updateProfile, changePassword } = useAuth();
     const { clearCart } = useCart();
+    const [searchParams] = useSearchParams();
     const [paymentSuccess, setPaymentSuccess] = React.useState(false);
 
     React.useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('status') === 'success') {
+        if (searchParams.get('status') === 'success') {
             setPaymentSuccess(true);
             clearCart();
             // On nettoie l'URL
             navigate('/mon-compte', { replace: true });
         }
-    }, [navigate, clearCart]);
+    }, [searchParams, navigate, clearCart]);
+ Westchester
 
     // Profil
     const [profileData, setProfileData] = useState({
