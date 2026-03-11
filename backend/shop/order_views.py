@@ -90,11 +90,10 @@ class OrderViewSet(viewsets.ModelViewSet):
             from .services.geniuspay import GeniusPayService
             # On définit les URLs de retour (succès/échec) vers le frontend
             # En v1, on renvoie vers la page de succès locale ou le compte
-            base_frontend_url = request.build_absolute_uri('/').split('/api/')[0] 
-            # Note: build_absolute_uri sur un API Django peut donner l'URL de l'API. 
-            # Souvent en prod on préfère une variable SETTINGS pour l'URL Frontend.
-            success_url = f"{base_frontend_url}/mon-compte?status=success"
-            cancel_url = f"{base_frontend_url}/checkout?status=cancel"
+            from django.conf import settings
+            # On définit les URLs de retour (succès/échec) vers le frontend réel
+            success_url = f"{settings.FRONTEND_URL}/mon-compte?status=success"
+            cancel_url = f"{settings.FRONTEND_URL}/checkout?status=cancel"
             
             checkout_url = GeniusPayService.initiate_payment(order, success_url, cancel_url)
             if not checkout_url:

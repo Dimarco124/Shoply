@@ -1,4 +1,5 @@
 import requests
+import json
 from django.conf import settings
 
 class GeniusPayService:
@@ -31,14 +32,26 @@ class GeniusPayService:
         }
         
         try:
-            response = requests.post(endpoint, json=payload, headers=headers, timeout=15)
-            response_data = response.json()
+            print(f"--- Initiating GeniusPay Payment ---")
+            print(f"Endpoint: {endpoint}")
+            print(f"Payload: {json.dumps(payload, indent=2)}")
             
-            if response.status_code == 200 or response.status_code == 201:
-                # La structure typique de GeniusPay pour l'URL de checkout
+            response = requests.post(endpoint, json=payload, headers=headers, timeout=15)
+            
+            print(f"Status: {response.status_code}")
+            # On log le texte brut pour voir si c'est du HTML (erreur serveur) ou du JSON
+            print(f"Raw Response: {response.text[:500]}") # Limité à 500 car.
+            
+            try:
+                response_data = response.json()
+            except Exception:
+                response_data = {}
+                
+            print(f"-------------------------------------")
+            
+            if response.status_code in [200, 201]:
                 return response_data.get("checkout_url")
             else:
-                print(f"GeniusPay Error: {response.status_code} - {response.text}")
                 return None
         except Exception as e:
             print(f"GeniusPay Exception: {str(e)}")

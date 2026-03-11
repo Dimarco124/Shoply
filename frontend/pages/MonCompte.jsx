@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiUser, FiMail, FiLock, FiLogOut, FiCheck, FiEdit2, FiShoppingBag } from 'react-icons/fi';
 import { useAuth } from '../src/context/AuthContext';
+import { useCart } from '../src/context/CartContext';
 import { orderService } from '../services/api';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -11,6 +12,18 @@ import './MonCompte.css';
 const MonCompte = () => {
     const navigate = useNavigate();
     const { user, logout, updateProfile, changePassword } = useAuth();
+    const { clearCart } = useCart();
+    const [paymentSuccess, setPaymentSuccess] = React.useState(false);
+
+    React.useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('status') === 'success') {
+            setPaymentSuccess(true);
+            clearCart();
+            // On nettoie l'URL
+            navigate('/mon-compte', { replace: true });
+        }
+    }, [navigate, clearCart]);
 
     // Profil
     const [profileData, setProfileData] = useState({
@@ -163,6 +176,11 @@ const MonCompte = () => {
                         </h2>
 
                         <form onSubmit={handleProfileSubmit} className="account-form">
+                            {paymentSuccess && (
+                                <div className="auth-success" style={{ marginBottom: '20px', backgroundColor: '#e6fffa', borderColor: '#38b2ac', color: '#2c7a7b' }}>
+                                    <FiCheck /> Paiement réussi ! Votre commande est en cours de traitement. Merci de votre confiance.
+                                </div>
+                            )}
                             {profileMsg && <div className="auth-success"><FiCheck /> {profileMsg}</div>}
                             {profileErr && <div className="auth-error">{profileErr}</div>}
 

@@ -16,8 +16,10 @@ def geniuspay_webhook(request):
     Reçoit les notifications de paiement et met à jour le statut de la commande.
     """
     payload = request.data
-    # Log pour debugging (à retirer ou mapper vers un vrai logger en prod)
-    print(f"GeniusPay Webhook received: {json.dumps(payload)}")
+    # Log pour debugging
+    print(f"--- GeniusPay Webhook Received ---")
+    print(f"Payload: {json.dumps(payload, indent=2)}")
+    print(f"---------------------------------")
     
     external_id = GeniusPayService.verify_webhook(payload)
     

@@ -13,6 +13,21 @@ const Checkout = () => {
     const { cartItems, cartTotal, clearCart } = useCart();
     const { user } = useAuth();
     const navigate = useNavigate();
+    const [searchParams] = React.useSyncExternalStore(
+        (callback) => {
+            window.addEventListener('popstate', callback);
+            return () => window.removeEventListener('popstate', callback);
+        },
+        () => new URLSearchParams(window.location.search)
+    );
+
+    React.useEffect(() => {
+        if (new URLSearchParams(window.location.search).get('status') === 'cancel') {
+            alert("Le paiement a été annulé. Vous pouvez réessayer ou choisir un autre mode de paiement.");
+            // On nettoie l'URL pour éviter que l'alerte ne revienne au refresh
+            navigate('/checkout', { replace: true });
+        }
+    }, [navigate]);
 
     const [loading, setLoading] = useState(false);
     const [orderSuccess, setOrderSuccess] = useState(null);

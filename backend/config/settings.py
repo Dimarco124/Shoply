@@ -12,7 +12,7 @@ DEBUG = 'RENDER' not in os.environ
 
 # Hôtes autorisés (inclut localhost, Render, et toutes origines si besoin)
 # Hôtes autorisés
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com', 'shoply-jgn9.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com', 'shoply-jgn9.onrender.com', '*']
 env_allowed_hosts = os.environ.get('ALLOWED_HOSTS')
 if env_allowed_hosts:
     ALLOWED_HOSTS.extend(env_allowed_hosts.split(','))
@@ -178,3 +178,6 @@ GENIUSPAY_TOKEN = os.environ.get('GENIUSPAY_TOKEN', '')
 GENIUSPAY_SANDBOX = os.environ.get('GENIUSPAY_SANDBOX', 'True') == 'True'
 GENIUSPAY_BASE_URL = "https://api.genius.ci/v1" if not GENIUSPAY_SANDBOX else "https://sandbox.genius.ci/v1"
 GENIUSPAY_WEBHOOK_URL = os.environ.get('GENIUSPAY_WEBHOOK_URL', '')
+
+# URL du Frontend pour les redirections
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173').rstrip('/')
