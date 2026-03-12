@@ -75,12 +75,16 @@ class GeniusPayService:
     @staticmethod
     def verify_webhook(data):
         """
-        Vérification basique du webhook (à adapter selon la doc officielle de signature si dispo).
+        Vérification du webhook.
+        D'après la doc : l'événement est dans 'event' et les données dans 'data'.
         """
-        # Dans un premier temps, on vérifie juste si c'est un succès
-        status = data.get("status")
-        external_id = data.get("external_id")
+        event = data.get("event")
+        payload_data = data.get("data", {})
+        metadata = payload_data.get("metadata", {})
         
-        if status == "SUCCESS":
-            return external_id
+        # Le ID de commande est dans les metadata
+        order_id = metadata.get("order_id")
+        
+        if event == "payment.success":
+            return order_id
         return None
