@@ -10,6 +10,13 @@ class GeniusPayService:
         Retourne l'URL de paiement ou None en cas d'erreur.
         """
         endpoint = f"{settings.GENIUSPAY_BASE_URL}/payments"
+        amount = float(order.total_price)
+        
+        # GeniusPay requiert un montant minimum de 200 XOF
+        if amount < 200:
+            print(f"--- GeniusPay Error: Amount {amount} is below minimum 200 XOF ---")
+            return None
+
         headers = {
             "X-API-Key": settings.GENIUSPAY_PUBLIC_KEY,
             "X-API-Secret": settings.GENIUSPAY_SECRET_KEY,
