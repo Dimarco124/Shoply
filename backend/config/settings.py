@@ -176,7 +176,7 @@ SIMPLE_JWT = {
 # Configuration GeniusPay
 GENIUSPAY_TOKEN = os.environ.get('GENIUSPAY_TOKEN', '')
 GENIUSPAY_SANDBOX = os.environ.get('GENIUSPAY_SANDBOX', 'True') == 'True'
-GENIUSPAY_BASE_URL = "https://api.genius.ci/v1" if not GENIUSPAY_SANDBOX else "https://sandbox.genius.ci/v1"
+GENIUSPAY_BASE_URL = "https://pay.genius.ci/api/v1/merchant"
 GENIUSPAY_WEBHOOK_URL = os.environ.get('GENIUSPAY_WEBHOOK_URL', '')
 
 # URL du Frontend pour les redirections

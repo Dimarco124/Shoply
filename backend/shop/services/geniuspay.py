@@ -9,7 +9,7 @@ class GeniusPayService:
         Initié un paiement via GeniusPay.
         Retourne l'URL de paiement ou None en cas d'erreur.
         """
-        endpoint = f"{settings.GENIUSPAY_BASE_URL}/checkout/create"
+        endpoint = f"{settings.GENIUSPAY_BASE_URL}/payments"
         headers = {
             "Authorization": f"Bearer {settings.GENIUSPAY_TOKEN}",
             "Content-Type": "application/json",
@@ -22,9 +22,12 @@ class GeniusPayService:
             "description": f"Commande #{order.id} - Dimarco Shoply",
             "external_id": str(order.id),
             "success_url": success_url,
-            "cancel_url": cancel_url,
+            "error_url": cancel_url,
             "notification_url": settings.GENIUSPAY_WEBHOOK_URL,
-            # Vous pouvez ajouter metadata si supporté
+            "customer": {
+                "name": order.nom_complet,
+                "email": order.email
+            },
             "metadata": {
                 "order_id": order.id,
                 "email": order.email
