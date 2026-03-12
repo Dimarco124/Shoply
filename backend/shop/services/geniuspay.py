@@ -11,7 +11,8 @@ class GeniusPayService:
         """
         endpoint = f"{settings.GENIUSPAY_BASE_URL}/payments"
         headers = {
-            "Authorization": f"Bearer {settings.GENIUSPAY_TOKEN}",
+            "X-API-Key": settings.GENIUSPAY_PUBLIC_KEY,
+            "X-API-Secret": settings.GENIUSPAY_SECRET_KEY,
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
@@ -37,6 +38,8 @@ class GeniusPayService:
         try:
             print(f"--- Initiating GeniusPay Payment ---")
             print(f"Endpoint: {endpoint}")
+            # On ne logue pas les clés API réelles pour des raisons de sécurité, mais on vérifie leur présence
+            print(f"Headers present: X-API-Key={bool(headers['X-API-Key'])}, X-API-Secret={bool(headers['X-API-Secret'])}")
             print(f"Payload: {json.dumps(payload, indent=2)}")
             
             response = requests.post(endpoint, json=payload, headers=headers, timeout=15)
@@ -53,7 +56,9 @@ class GeniusPayService:
             print(f"-------------------------------------")
             
             if response.status_code in [200, 201]:
-                return response_data.get("checkout_url")
+                # Selon la doc, c'est dans data['checkout_url'] ou data['payment_url']
+                data = response_data.get("data", {})
+                return data.get("checkout_url") or data.get("payment_url")
             else:
                 return None
         except Exception as e:

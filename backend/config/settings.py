@@ -174,7 +174,8 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 # Configuration GeniusPay
-GENIUSPAY_TOKEN = os.environ.get('GENIUSPAY_TOKEN', '')
+GENIUSPAY_PUBLIC_KEY = os.environ.get('GENIUSPAY_PUBLIC_KEY', '')
+GENIUSPAY_SECRET_KEY = os.environ.get('GENIUSPAY_SECRET_KEY', '')
 GENIUSPAY_SANDBOX = os.environ.get('GENIUSPAY_SANDBOX', 'True') == 'True'
 GENIUSPAY_BASE_URL = "https://pay.genius.ci/api/v1/merchant"
 GENIUSPAY_WEBHOOK_URL = os.environ.get('GENIUSPAY_WEBHOOK_URL', '')
