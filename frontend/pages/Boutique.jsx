@@ -6,6 +6,7 @@ import {
     FiChevronDown, FiStar, FiX, FiSliders,
     FiPackage, FiTag, FiCheckCircle, FiFilter
 } from 'react-icons/fi';
+import { useInView } from 'react-intersection-observer';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -45,19 +46,17 @@ const Boutique = () => {
         };
     });
 
-    const observerRef = useRef();
-    const lastProductRef = useCallback(node => {
-        if (loading || loadingMore) return;
-        if (observerRef.current) observerRef.current.disconnect();
-        if (typeof window === 'undefined' || !window.IntersectionObserver) return;
-        
-        observerRef.current = new IntersectionObserver(entries => {
-            if (entries && entries[0] && entries[0].isIntersecting && hasMore && !loading && !loadingMore) {
-                loadMoreProduits();
-            }
-        }, { threshold: 0.1 });
-        if (node) observerRef.current.observe(node);
-    }, [loading, loadingMore, hasMore]);
+    const { ref: lastProductRef, inView } = useInView({
+        threshold: 0,
+        rootMargin: '200px',
+        triggerOnce: false
+    });
+    
+    useEffect(() => {
+        if (inView && hasMore && !loading && !loadingMore) {
+            loadMoreProduits();
+        }
+    }, [inView, hasMore, loading, loadingMore]);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
