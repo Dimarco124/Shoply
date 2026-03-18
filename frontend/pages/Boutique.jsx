@@ -24,6 +24,7 @@ const Boutique = () => {
     const [produits, setProduits] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isMounted, setIsMounted] = useState(false);
     const [loadError, setLoadError] = useState(false);
     const [loadingMore, setLoadingMore] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -73,6 +74,7 @@ const Boutique = () => {
     }, [location.search]);
 
     useEffect(() => {
+        setIsMounted(true);
         loadCategories();
     }, []);
 
@@ -424,11 +426,8 @@ const Boutique = () => {
                             </motion.div>
                         ) : (
                             <>
-                                <motion.div
+                                <div
                                     className={viewMode === 'grid' ? 'b-grid' : 'b-list'}
-                                    variants={containerVariants}
-                                    initial="hidden"
-                                    animate="visible"
                                     style={{ opacity: loading ? 0.7 : 1, transition: 'opacity 0.3s' }}
                                 >
                                     {produits.map((produit, index) => {
@@ -511,7 +510,7 @@ const Boutique = () => {
                                             </motion.article>
                                         );
                                     })}
-                                </motion.div>
+                                </div>
 
                                 {loadingMore && (
                                     <div className="b-loading-more">
