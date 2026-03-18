@@ -98,6 +98,33 @@
         position: relative;
         padding: 5px 0;
         transition: color 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .nav-link-icon {
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        /* Par défaut l'icône suit la couleur du texte ou est gold ? */
+        /* Dans le style premium, essayons d'avoir l'icône en gold constant comme un accent */
+        color: var(--gold);
+        transition: opacity 0.3s ease, color 0.3s ease;
+    }
+
+    /* En mode transparent, on peut vouloir l'icône blanche aussi par défaut */
+    .header.transparent .nav-link-icon {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .header.transparent .nav-link.active .nav-link-icon,
+    .header.transparent .nav-link:hover .nav-link-icon {
+        color: var(--gold);
+    }
+
+    .nav-link-name {
+        line-height: 1;
     }
 
     .header.transparent .nav-link {
