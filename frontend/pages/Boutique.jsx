@@ -49,9 +49,13 @@ const Boutique = () => {
     const lastProductRef = useCallback(node => {
         if (loading || loadingMore) return;
         if (observerRef.current) observerRef.current.disconnect();
+        if (typeof window === 'undefined' || !window.IntersectionObserver) return;
+        
         observerRef.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) loadMoreProduits();
-        });
+            if (entries && entries[0] && entries[0].isIntersecting && hasMore && !loading && !loadingMore) {
+                loadMoreProduits();
+            }
+        }, { threshold: 0.1 });
         if (node) observerRef.current.observe(node);
     }, [loading, loadingMore, hasMore]);
 

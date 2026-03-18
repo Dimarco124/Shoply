@@ -103,7 +103,7 @@
         return item ? item.quantity : 0;
     };
 
-    const value = {
+    const value = React.useMemo(() => ({
         cartItems,
         cartCount,
         cartTotal,
@@ -113,7 +113,7 @@
         clearCart,
         isInCart,
         getItemQuantity
-    };
+    }), [cartItems, cartCount, cartTotal]);
 
     return (
         <CartContext.Provider value={value}>
