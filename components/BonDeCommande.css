@@ -1,0 +1,425 @@
+    /* ============================================================
+    BON DE COMMANDE — AFRO-LUXE SOLAIRE
+    Style reçu premium · Imprimable · Cohérent avec la charte
+    ============================================================ */
+
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap');
+
+    :root {
+    --ivory:       #faf6ef;
+    --ivory-dark:  #f0e9da;
+    --cream:       #fffbf5;
+    --terra:       #c8654a;
+    --terra-light: #e8846b;
+    --terra-pale:  #fce8e1;
+    --gold:        #d4a843;
+    --gold-light:  #f0c96a;
+    --gold-pale:   #fdf3d8;
+    --sage:        #5a7a5e;
+    --sage-pale:   #e8f0e8;
+    --sand:        #b8956a;
+    --text-main:   #3d2e1e;
+    --text-muted:  #7a6555;
+    --border:      rgba(180, 140, 100, 0.22);
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+    WRAPPER
+    ══════════════════════════════════════════════════════════════ */
+    .bon-commande {
+    width: 680px;
+    margin: 0 auto;
+    background: var(--cream);
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-main);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+        0 2px 0 rgba(212, 168, 67, 0.4),
+        0 24px 80px rgba(61, 46, 30, 0.14),
+        0 0 0 1px var(--border);
+    position: relative;
+    }
+
+    /* Bande tricolore signature en haut */
+    .bon-commande::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--terra), var(--gold), var(--sage));
+    z-index: 10;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+    EN-TÊTE
+    ══════════════════════════════════════════════════════════════ */
+    .bon-header {
+    padding: 52px 52px 36px;
+    text-align: center;
+    background:
+        radial-gradient(ellipse 80% 100% at 80% 0%, rgba(212,168,67,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 10% 100%, rgba(200,101,74,0.09) 0%, transparent 55%),
+        var(--ivory-dark);
+    position: relative;
+    overflow: hidden;
+    }
+
+    /* Motif hexagonal décoratif en arrière-plan */
+    .bon-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='56' height='56' viewBox='0 0 56 56' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23d4a843' stroke-width='0.45' opacity='0.2'%3E%3Cpolygon points='28,2 54,15 54,41 28,54 2,41 2,15'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 56px 56px;
+    pointer-events: none;
+    }
+
+    .shop-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    }
+
+    /* Point doré après le nom */
+    .shop-name::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    border-radius: 2px;
+    }
+
+    .document-title {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-top: 16px;
+    margin-bottom: 6px;
+    }
+
+    .date {
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+    SÉPARATEURS
+    ══════════════════════════════════════════════════════════════ */
+    .separator {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 52px;
+    margin: 4px 0;
+    }
+
+    .separator-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.5;
+    }
+
+    .separator-icon {
+    font-size: 0.7rem;
+    color: var(--gold);
+    opacity: 0.8;
+    flex-shrink: 0;
+    }
+
+    .separator-light {
+    height: 1px;
+    margin: 0 52px;
+    background: var(--border);
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+    DÉTAILS COMMANDE
+    ══════════════════════════════════════════════════════════════ */
+    .command-details {
+    padding: 32px 52px 24px;
+    }
+
+    .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: 0.04em;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    }
+
+    .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    }
+
+    /* ── Liste des articles ─────────────────────────────────────── */
+    .items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    }
+
+    .item-row {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: transparent;
+    transition: background 0.2s;
+    }
+
+    .item-row:hover {
+    background: var(--ivory-dark);
+    }
+
+    /* Alternance subtile */
+    .item-row:nth-child(even) {
+    background: rgba(250, 246, 239, 0.6);
+    }
+
+    .item-row:nth-child(even):hover {
+    background: var(--ivory-dark);
+    }
+
+    /* Image */
+    .item-image {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    background: var(--ivory-dark);
+    }
+
+    .item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    }
+
+    /* Infos */
+    .item-info {
+    min-width: 0;
+    }
+
+    .item-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text-main);
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+
+    /* Pricing */
+    .item-pricing {
+    text-align: right;
+    flex-shrink: 0;
+    }
+
+    .price-per-unit {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 4px;
+    margin-bottom: 4px;
+    }
+
+    .price-per-unit .price {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    }
+
+    .price-per-unit .currency {
+    font-size: 0.68rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    }
+
+    .quantity-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    }
+
+    .quantity-info .price {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    }
+
+    .quantity-info .times {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    }
+
+    .quantity-info .quantity-number {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--terra);
+    background: var(--terra-pale);
+    padding: 1px 8px;
+    border-radius: 999px;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+    TOTAL
+    ══════════════════════════════════════════════════════════════ */
+    .totals-section {
+    padding: 24px 52px 28px;
+    }
+
+    .grand-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, var(--ivory-dark), var(--gold-pale));
+    border-radius: 14px;
+    border: 1px solid rgba(212, 168, 67, 0.3);
+    }
+
+    .grand-total-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    }
+
+    .grand-total-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--terra);
+    letter-spacing: -0.01em;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+    PIED DE PAGE
+    ══════════════════════════════════════════════════════════════ */
+    .bon-footer {
+    padding: 28px 52px 44px;
+    text-align: center;
+    background:
+        radial-gradient(ellipse 60% 80% at 50% 100%, rgba(200,101,74,0.07) 0%, transparent 65%),
+        var(--ivory);
+    }
+
+    .footer-message {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    }
+
+    .order-note {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--gold-pale);
+    border: 1px solid rgba(212, 168, 67, 0.3);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    text-align: left;
+    max-width: 400px;
+    }
+
+    .order-note strong {
+    color: var(--sand);
+    font-weight: 600;
+    }
+
+    .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    }
+
+    .contact-info .phone,
+    .contact-info .whatsapp {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    }
+
+    .contact-info .whatsapp {
+    color: #25D366;
+    font-weight: 500;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+    IMPRESSION
+    ══════════════════════════════════════════════════════════════ */
+    @media print {
+    .bon-commande {
+        box-shadow: none;
+        border-radius: 0;
+        width: 100%;
+    }
+
+    .bon-commande::before {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .item-row:hover,
+    .item-row:nth-child(even) {
+        background: transparent;
+    }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+    RESPONSIVE (affichage mobile)
+    ══════════════════════════════════════════════════════════════ */
+    @media (max-width: 720px) {
+    .bon-commande { width: 100%; border-radius: 0; }
+
+    .bon-header,
+    .command-details,
+    .totals-section,
+    .bon-footer,
+    .separator,
+    .separator-light { padding-left: 24px; padding-right: 24px; }
+
+    .item-row { grid-template-columns: 52px 1fr auto; gap: 10px; }
+
+    .item-image { width: 52px; height: 52px; }
+
+    .grand-total-amount { font-size: 1.4rem; }
+    }

@@ -1,0 +1,222 @@
+    /* ============================================================
+    CTA SECTION — Pro, sombre avec accents dorés
+    ============================================================ */
+
+    .cta-section {
+    position: relative;
+    background: #fffbfb;
+    overflow: hidden;
+    padding: 100px 0;
+    }
+
+    /* ── Cercles décoratifs flous ── */
+    .cta-decor {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    }
+
+    .cta-decor-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(228, 161, 27, 0.12) 0%, transparent 70%);
+    top: -180px;
+    right: -100px;
+    }
+
+    .cta-decor-2 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(228, 161, 27, 0.08) 0%, transparent 70%);
+    bottom: -120px;
+    left: -80px;
+    }
+
+    .cta-decor-3 {
+    width: 180px;
+    height: 180px;
+    border: 1px solid rgba(228, 161, 27, 0.15);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+
+    /* ── Ligne dorée en haut ── */
+    .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #B8924A, transparent);
+    }
+
+    /* ── Contenu centré ── */
+    .cta-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 32px;
+    text-align: center;
+    }
+
+    .cta-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    }
+
+    /* Badge */
+    .cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: rgba(228, 161, 27, 0.12);
+    border: 1px solid rgba(228, 161, 27, 0.3);
+    border-radius: 50px;
+    color: #B8924A;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Titre */
+    .cta-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    color: black;
+    line-height: 1.2;
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: -0.02em;
+    }
+
+    .cta-title-accent {
+    color: #B8924A;
+    display: block;
+    }
+
+    /* Sous-titre */
+    .cta-text {
+    font-size: 1rem;
+    color: black !important;
+    line-height: 1.75;
+    max-width: 520px;
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Boutons */
+    .cta-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 4px;
+    }
+
+    .cta-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: #B8924A;
+    color: black;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+    font-family: 'Cormorant Garamond', serif;
+    box-shadow: 0 8px 28px rgba(228, 161, 27, 0.3);
+    }
+
+    .cta-btn-primary:hover {
+    background: #c98a16;
+    box-shadow: 0 12px 36px rgba(228, 161, 27, 0.45);
+    }
+
+    .btn-icon {
+    font-size: 1rem;
+    transition: transform 0.25s ease;
+    }
+
+    .cta-btn-primary:hover .btn-icon {
+    transform: translateX(4px);
+    }
+
+    .cta-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 16px 32px;
+    background: transparent;
+    color: rgba(33, 22, 22, 0.75);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border: 1px solid rgba(33, 22, 22, 0.2);
+    border-radius: 4px;
+    transition: border-color 0.25s, color 0.25s;
+    font-family: 'Cormorant Garamond', serif;
+    }
+
+    .cta-btn-secondary:hover {
+    border-color: rgba(33, 22, 22, 0.5);
+    color: black;
+    }
+
+    /* Gages de confiance */
+    .cta-trust {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 4px;
+    }
+
+    .trust-item {
+    font-size: 0.82rem;
+    color: rgba(33, 22, 22, 0.4);
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 0.5px;
+    }
+
+    /* ============================================================
+    RESPONSIVE
+    ============================================================ */
+    @media (max-width: 600px) {
+    .cta-section {
+        padding: 72px 0;
+    }
+
+    .cta-inner {
+        padding: 0 20px;
+    }
+
+    .cta-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .cta-btn-primary,
+    .cta-btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cta-trust {
+        gap: 12px;
+    }
+
+    .trust-item {
+        font-size: 0.76rem;
+    }
+    }
